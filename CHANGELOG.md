@@ -1,3 +1,8 @@
+# Unreleased
+
+## Fixes
+- **Qoder**: return first-frame upstream errors, including `403/103 Duplicate request`, as HTTP failures instead of assistant text; handle fragmented frames and heartbeat prefixes while preserving billing error mapping.
+
 # v0.5.81 (2026-09-18)
 
 ## Features
