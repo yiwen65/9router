@@ -682,6 +682,10 @@ export class QoderExecutor extends BaseExecutor {
         // 403/code 103. Let the caller retry through execute() with fresh signing.
         { ...proxyOptions, strictProxy: true },
       );
+    } catch (err) {
+      // strictProxy wraps transport errors; retain caller cancellation semantics.
+      if (mergedSignal.aborted) throw mergedSignal.reason;
+      throw err;
     } finally {
       clearTimeout(connectTimer);
     }

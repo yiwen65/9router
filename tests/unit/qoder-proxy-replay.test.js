@@ -83,4 +83,15 @@ describe("Qoder signed inference transport", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(!!fetchMock.mock.calls[0][1].dispatcher).toBe(useProxy);
   });
+
+  it("preserves caller cancellation without replaying the request", async () => {
+    const controller = new AbortController();
+    const fetchMock = vi.fn(async (_url, options) => {
+      controller.abort();
+      throw options.signal.reason;
+    });
+    const executor = await loadExecutor(fetchMock);
+    await expect(executor.execute({ ...request, signal: controller.signal })).rejects.toMatchObject({ name: "AbortError" });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
 });
