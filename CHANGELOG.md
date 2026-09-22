@@ -1,6 +1,7 @@
 # Unreleased
 
 ## Fixes
+- **Qoder**: prevent proxy failures from silently replaying signed inference requests over a direct connection with the same COSY request ID (`403/103 Duplicate request`).
 - **Qoder**: return first-frame upstream errors, including `403/103 Duplicate request`, as HTTP failures instead of assistant text; handle fragmented frames and heartbeat prefixes while preserving billing error mapping.
 
 # v0.5.81 (2026-09-18)
